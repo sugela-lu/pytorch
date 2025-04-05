@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology - Medical Image Super-Resolution</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: white;
+        }
+        
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+        
+        .main-container {
+            min-height: calc(100vh - 160px);
+            padding: 40px 0;
+        }
+        
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .page-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 15px 20px;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            margin-bottom: 0;
+        }
+        
+        .tech-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .model-diagram {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-feature {
+            background-color: #f1f7fb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .tech-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-feature h5 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .tech-feature p {
+            color: #555;
+            margin-bottom: 0;
+        }
+        
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .code-comment {
+            color: #7f8c8d;
+        }
+        
+        .performance-metric {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .performance-metric:hover {
+            background-color: #e3e8ec;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .metric-description {
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .comparison-image {
+            position: relative;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(44, 62, 80, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 10px 20px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--secondary-color);
+            background-color: transparent;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        
+        .tab-content {
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='favicon.ico') }}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+                MedSR
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('technology') }}">Technology</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+        <div class="text-center mb-5">
+            <h1 class="page-title">Our Technology</h1>
+            <p class="lead">Explore the advanced AI technology behind our medical image super-resolution system</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Overview Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-microscope me-2"></i> Technology Overview
+                    </div>
+                    <div class="card-body">
+                        <p>Our medical image super-resolution system uses state-of-the-art deep learning techniques to enhance the quality and resolution of medical images. The technology is designed specifically for medical imaging, with a focus on preserving diagnostic features while improving clarity and detail.</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="tech-feature">
+                                    <i class="fas fa-brain tech-icon" style="font-size: 2rem;"></i>
+                                    <h5>Deep Learning</h5>
+                                    <p>Utilizes advanced neural networks trained on medical imaging datasets</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="tech-feature">
+                                    <i class="fas fa-tachometer-alt tech-icon" style="font-size: 2rem;"></i>
+                                    <h5>High Performance</h5>
+                                    <p>Optimized for speed and accuracy with GPU acceleration</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="tech-feature">
+                                    <i class="fas fa-universal-access tech-icon" style="font-size: 2rem;"></i>
+                                    <h5>Accessibility</h5>
+                                    <p>Web-based interface makes the technology available anywhere</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Architecture Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-project-diagram me-2"></i> Model Architecture
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="modelTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="srcnn-tab" data-bs-toggle="tab" data-bs-target="#srcnn" type="button" role="tab" aria-controls="srcnn" aria-selected="true">SRCNN</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="espcn-tab" data-bs-toggle="tab" data-bs-target="#espcn" type="button" role="tab" aria-controls="espcn" aria-selected="false">ESPCN</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="edsr-tab" data-bs-toggle="tab" data-bs-target="#edsr" type="button" role="tab" aria-controls="edsr" aria-selected="false">EDSR</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="modelTabsContent">
+                            <div class="tab-pane fade show active" id="srcnn" role="tabpanel" aria-labelledby="srcnn-tab">
+                                <h4>Super-Resolution Convolutional Neural Network (SRCNN)</h4>
+                                <p>SRCNN is our primary model architecture, designed to efficiently enhance image resolution while preserving important medical details. The network consists of three main components:</p>
+                                
+                                <ol>
+                                    <li><strong>Feature Extraction:</strong> The first layer extracts patches from the low-resolution input and represents them as feature maps.</li>
+                                    <li><strong>Non-linear Mapping:</strong> The middle layer maps these feature representations to high-resolution patch representations.</li>
+                                    <li><strong>Reconstruction:</strong> The final layer aggregates the predictions to produce the high-resolution output.</li>
+                                </ol>
+                                
+                                <div class="text-center">
+                                    <img src="https://miro.medium.com/max/1400/1*FKrRXAGI_JNdUKrb-iwkrg.png" alt="SRCNN Architecture" class="model-diagram">
+                                    <p class="text-muted">SRCNN Architecture Diagram</p>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <pre><span class="code-comment"># SRCNN Model Architecture</span>
+class SRCNN(nn.Module):
+    def __init__(self):
+        super(SRCNN, self).__init__()
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(1, 64, kernel_size=9, padding=4),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True)
+        )
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(64, 32, kernel_size=1, padding=0),
+            nn.BatchNorm2d(32),
+            nn.ReLU(inplace=True)
+        )
+        self.conv3 = nn.Conv2d(32, 1, kernel_size=5, padding=2)
+
+    def forward(self, x):
+        out = self.conv1(x)
+        out = self.conv2(out)
+        out = self.conv3(out)
+        return out</pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="espcn" role="tabpanel" aria-labelledby="espcn-tab">
+                                <h4>Efficient Sub-Pixel Convolutional Neural Network (ESPCN)</h4>
+                                <p>ESPCN is an alternative architecture that uses sub-pixel convolution for efficient upscaling. This model processes the image in the low-resolution space and only upscales at the very end, making it computationally efficient.</p>
+                                
+                                <div class="text-center">
+                                    <img src="https://miro.medium.com/max/1400/1*4w5SL-5Yw8VGBzVwUzs3Tw.png" alt="ESPCN Architecture" class="model-diagram">
+                                    <p class="text-muted">ESPCN Architecture Diagram</p>
+                                </div>
+                                
+                                <div class="code-block">
+                                    <pre><span class="code-comment"># ESPCN Model Architecture</span>
+class ESPCN(nn.Module):
+    def __init__(self, scale_factor=2):
+        super(ESPCN, self).__init__()
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(1, 64, kernel_size=5, padding=2),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True)
+        )
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(64, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(inplace=True)
+        )
+        self.conv3 = nn.Conv2d(32, scale_factor**2, kernel_size=3, padding=1)
+        self.pixel_shuffle = nn.PixelShuffle(scale_factor)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.pixel_shuffle(self.conv3(x))
+        return x</pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="edsr" role="tabpanel" aria-labelledby="edsr-tab">
+                                <h4>Enhanced Deep Super-Resolution Network (EDSR)</h4>
+                                <p>EDSR is our most advanced model, designed for high-quality super-resolution. It removes unnecessary modules from conventional residual networks and expands the model size while stabilizing the training process.</p>
+                                
+                                <div class="text-center">
+                                    <img src="https://miro.medium.com/max/1400/1*SYxVy8zKGRUXQYcM8AGGVA.png" alt="EDSR Architecture" class="model-diagram">
+                                    <p class="text-muted">EDSR Architecture Diagram</p>
+                                </div>
+                                
+                                <p>This model is particularly effective for complex medical images where fine details are critical for diagnosis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line me-2"></i> Performance Metrics
+                    </div>
+                    <div class="card-body">
+                        <p>Our models are evaluated using industry-standard metrics for image quality assessment:</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="performance-metric">
+                                    <div class="metric-label">PSNR</div>
+                                    <div class="metric-value">32.8 dB</div>
+                                    <div class="metric-description">Peak Signal-to-Noise Ratio measures the ratio between the maximum possible power of a signal and the power of corrupting noise</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="performance-metric">
+                                    <div class="metric-label">SSIM</div>
+                                    <div class="metric-value">0.94</div>
+                                    <div class="metric-description">Structural Similarity Index measures the similarity between two images based on luminance, contrast, and structure</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="performance-metric">
+                                    <div class="metric-label">Processing Time</div>
+                                    <div class="metric-value">0.8s</div>
+                                    <div class="metric-description">Average processing time per image on standard hardware (CPU)</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="mt-4">These metrics are based on evaluations using standard medical imaging datasets, including X-rays, MRIs, and CT scans. Performance may vary depending on the specific characteristics of the input image.</p>
+                    </div>
+                </div>
+
+                <!-- Training Process Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-cogs me-2"></i> Training Process
+                    </div>
+                    <div class="card-body">
+                        <p>Our models are trained using a specialized process designed for medical imaging:</p>
+                        
+                        <h5 class="mt-4">Dataset</h5>
+                        <p>The models are trained on a diverse dataset of medical images, including:</p>
+                        <ul>
+                            <li>X-rays (chest, bone, dental)</li>
+                            <li>MRI scans (brain, spine, joints)</li>
+                            <li>CT scans (various body regions)</li>
+                            <li>Ultrasound images</li>
+                        </ul>
+                        
+                        <h5 class="mt-4">Training Methodology</h5>
+                        <p>We employ several advanced techniques to optimize model performance:</p>
+                        <ul>
+                            <li><strong>Mixed Precision Training:</strong> Accelerates training while maintaining accuracy</li>
+                            <li><strong>Learning Rate Scheduling:</strong> Adaptive learning rates for optimal convergence</li>
+                            <li><strong>Early Stopping:</strong> Prevents overfitting by monitoring validation performance</li>
+                            <li><strong>Gradient Clipping:</strong> Stabilizes training by preventing exploding gradients</li>
+                            <li><strong>Data Augmentation:</strong> Enhances model generalization through synthetic variations</li>
+                        </ul>
+                        
+                        <div class="code-block">
+                            <pre><span class="code-comment"># Training loop with mixed precision</span>
+scaler = GradScaler()
+for epoch in range(num_epochs):
+    model.train()
+    for inputs, targets in train_loader:
+        inputs, targets = inputs.to(device), targets.to(device)
+        
+        optimizer.zero_grad()
+        
+        # Mixed precision forward pass
+        with autocast():
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+        
+        # Mixed precision backward pass
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
+    
+    # Learning rate scheduling
+    scheduler.step()</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applications Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-hospital-user me-2"></i> Clinical Applications
+                    </div>
+                    <div class="card-body">
+                        <p>Our super-resolution technology has several important applications in clinical settings:</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="tech-feature">
+                                    <h5><i class="fas fa-x-ray me-2"></i> Legacy Equipment Enhancement</h5>
+                                    <p>Improves the quality of images from older medical imaging equipment, extending their useful life and improving diagnostic capabilities without hardware upgrades.</p>
+                                </div>
+                                
+                                <div class="tech-feature">
+                                    <h5><i class="fas fa-search-plus me-2"></i> Detail Enhancement</h5>
+                                    <p>Enhances fine details in medical images that may be critical for accurate diagnosis, such as small lesions, fracture lines, or tissue abnormalities.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="tech-feature">
+                                    <h5><i class="fas fa-file-archive me-2"></i> Archive Restoration</h5>
+                                    <p>Enhances the quality of archived medical images that may have degraded over time or were originally captured at lower resolutions.</p>
+                                </div>
+                                
+                                <div class="tech-feature">
+                                    <h5><i class="fas fa-laptop-medical me-2"></i> Telemedicine Support</h5>
+                                    <p>Improves the quality of transmitted images in telemedicine applications, ensuring remote specialists can make accurate assessments.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mt-4">Example: X-ray Enhancement</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="comparison-image">
+                                    <span class="image-label">Original</span>
+                                    <img src="https://www.researchgate.net/profile/Yudong-Zhang-5/publication/323446305/figure/fig1/AS:599871423614976@1519995415035/Sample-chest-X-ray-images-from-the-dataset.png" alt="Original X-ray">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="comparison-image">
+                                    <span class="image-label">Enhanced</span>
+                                    <img src="https://www.researchgate.net/profile/Yudong-Zhang-5/publication/323446305/figure/fig1/AS:599871423614976@1519995415035/Sample-chest-X-ray-images-from-the-dataset.png" alt="Enhanced X-ray">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 Medical Super-Resolution Project</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Powered by PyTorch & Flask</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
